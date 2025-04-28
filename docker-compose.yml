@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: audioplay-mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - audioplay-net
+
+volumes:
+  mongo_data:
+
+networks:
+  audioplay-net:
+    driver: bridge
