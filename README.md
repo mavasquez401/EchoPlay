@@ -19,7 +19,7 @@ Before you begin, ensure you have the following installed:
 - npm or yarn
 - Docker and Docker Compose
 - MongoDB (or use Docker as described below)
-- Cloudinary account (for audio file storage)
+- Cloudinary account (free tier available)
 
 ## Getting Started
 
@@ -50,8 +50,12 @@ CLOUDINARY_API_SECRET=your_api_secret
 ### 3. Set Up Cloudinary
 
 1. Create a free account at [Cloudinary](https://cloudinary.com/)
-2. Get your Cloud Name, API Key, and API Secret from the Cloudinary Dashboard
+2. Get your Cloud Name, API Key, and API Secret from the Cloudinary dashboard
 3. Add these credentials to your `.env` file as shown above
+4. Configure your Cloudinary settings for audio files:
+   - Enable audio uploads in your Cloudinary settings
+   - Set up appropriate upload presets for audio files
+   - Configure CORS settings to allow uploads from your domain
 
 ### 4. Set Up the Frontend
 
@@ -110,7 +114,7 @@ The application should now be running with:
 - Mongoose - MongoDB ODM
 - dotenv - Environment variable management
 - cors - Cross-origin resource sharing
-- cloudinary - Cloudinary SDK for file uploads
+- cloudinary - Cloudinary SDK for file management
 - multer - File upload middleware
 - Other development dependencies for TypeScript and testing
 
@@ -122,6 +126,7 @@ The application should now be running with:
 - Material-UI or other UI component library
 - React Player or similar audio player component
 - react-dropzone - For file uploads
+- @cloudinary/react - Cloudinary React components
 
 ## Development
 
@@ -131,22 +136,24 @@ The application should now be running with:
 - API endpoints are organized in the `routes` directory
 - Models are defined in the `models` directory
 - Controllers handle business logic in the `controllers` directory
-- Audio files are uploaded to Cloudinary and stored as URLs in MongoDB
+- Cloudinary integration for file uploads and management
+- Audio file validation and processing
 
 ### Frontend Development
 
 - React components are organized in the `components` directory
 - State management is handled using React Context or Redux
 - Styling is done using CSS modules or styled-components
-- File uploads are handled using react-dropzone
-- Audio playback uses Cloudinary's streaming URLs
+- Cloudinary upload widget integration
+- Audio player implementation
 
 ## File Upload Process
 
-1. Audio files are uploaded to Cloudinary through the backend API
-2. Cloudinary processes the files and returns secure URLs
-3. These URLs are stored in MongoDB along with metadata
-4. The frontend uses these URLs for streaming audio playback
+1. Frontend uses react-dropzone for file selection
+2. Files are validated for type and size
+3. Files are uploaded to Cloudinary using signed uploads
+4. Cloudinary returns secure URLs for audio streaming
+5. URLs are stored in MongoDB with metadata
 
 ## Contributing
 
