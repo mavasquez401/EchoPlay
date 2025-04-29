@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Summer Vibes",
+    "artist": "DJ Cool",
+    "duration": 180,
+    "cloudinaryId": "summer_vibes_123",
+    "cloudinaryUrl": "https://res.cloudinary.com/your-cloud/video/upload/summer_vibes_123.mp3",
+    "tags": [],
+    "playCount": 0,
+    "_id": "6810191bb66e4013a15f2126",
+    "uploadDate": "2025-04-29T00:11:07.307Z",
+    "__v": 0,
+    "createdAt": "2025-04-29T00:11:07.309Z",
+    "updatedAt": "2025-04-29T00:11:07.309Z"
+  },
+  {
+    "title": "Midnight Dreams",
+    "artist": "Night Owl",
+    "duration": 240,
+    "cloudinaryId": "midnight_dreams_456",
+    "cloudinaryUrl": "https://res.cloudinary.com/your-cloud/video/upload/midnight_dreams_456.mp3",
+    "tags": [],
+    "playCount": 0,
+    "_id": "6810191bb66e4013a15f2127",
+    "uploadDate": "2025-04-29T00:11:07.308Z",
+    "__v": 0,
+    "createdAt": "2025-04-29T00:11:07.309Z",
+    "updatedAt": "2025-04-29T00:11:07.309Z"
+  },
+  {
+    "title": "Morning Sun",
+    "artist": "Early Bird",
+    "duration": 210,
+    "cloudinaryId": "morning_sun_789",
+    "cloudinaryUrl": "https://res.cloudinary.com/your-cloud/video/upload/morning_sun_789.mp3",
+    "tags": [],
+    "playCount": 0,
+    "_id": "6810191bb66e4013a15f2128",
+    "uploadDate": "2025-04-29T00:11:07.308Z",
+    "__v": 0,
+    "createdAt": "2025-04-29T00:11:07.309Z",
+    "updatedAt": "2025-04-29T00:11:07.309Z"
+  }
+]

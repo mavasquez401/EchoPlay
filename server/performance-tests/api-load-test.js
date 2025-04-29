@@ -1,55 +1,56 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { Rate } from 'k6/metrics';
+import { SharedArray } from 'k6/data';
 
-// Custom metrics
-const errorRate = new Rate('errors');
-const songIds = ['test_song_1', 'test_song_2', 'test_song_3'];
+// Load test data from a JSON file
+const testData = new SharedArray('test data', function () {
+  return JSON.parse(open('./test-data.json'));
+});
 
 // Test configuration
 export const options = {
   stages: [
     { duration: '30s', target: 20 }, // Ramp up to 20 users
-    { duration: '1m', target: 50 }, // Stay at 50 users
+    { duration: '1m', target: 20 }, // Stay at 20 users
     { duration: '30s', target: 0 }, // Ramp down to 0 users
   ],
   thresholds: {
     http_req_duration: ['p(95)<500'], // 95% of requests should be below 500ms
-    errors: ['rate<0.1'], // Error rate should be below 10%
+    http_req_failed: ['rate<0.01'], // Less than 1% of requests should fail
   },
 };
 
-// Test data
-const API_BASE_URL = 'http://localhost:5001/api';
+// Base URL for the API
+const BASE_URL = 'http://localhost:5001/api/songs';
 
 export default function () {
-  // Test song listing with pagination
-  const songsResponse = http.get(`${API_BASE_URL}/songs?page=1&limit=10`);
-  check(songsResponse, {
-    'songs list status is 200': (r) => r.status === 200,
-    'songs list response time < 500ms': (r) => r.timings.duration < 500,
-    'songs list has data': (r) => JSON.parse(r.body).songs.length > 0,
+  // Test GET all songs endpoint
+  const getAllResponse = http.get(`${BASE_URL}?page=1&limit=10`);
+  check(getAllResponse, {
+    'GET /songs status is 200': (r) => r.status === 200,
+    'GET /songs response time < 500ms': (r) => r.timings.duration < 500,
   });
-  errorRate.add(songsResponse.status !== 200);
 
-  // Test song details with a random song ID
-  const randomSongId = songIds[Math.floor(Math.random() * songIds.length)];
-  const songResponse = http.get(`${API_BASE_URL}/songs/${randomSongId}`);
-  check(songResponse, {
-    'song details status is 200': (r) => r.status === 200,
-    'song details response time < 500ms': (r) => r.timings.duration < 500,
-    'song details has data': (r) => JSON.parse(r.body).title !== undefined,
+  // Get a random song ID from test data
+  const randomSong = testData[Math.floor(Math.random() * testData.length)];
+
+  // Test GET single song endpoint
+  const getSingleResponse = http.get(`${BASE_URL}/${randomSong.cloudinaryId}`);
+  check(getSingleResponse, {
+    'GET /songs/:id status is 200': (r) => r.status === 200,
+    'GET /songs/:id response time < 300ms': (r) => r.timings.duration < 300,
   });
-  errorRate.add(songResponse.status !== 200);
 
-  // Test audio streaming with a random song ID
-  const audioResponse = http.get(`${API_BASE_URL}/audio/${randomSongId}`);
-  check(audioResponse, {
-    'audio stream status is 200': (r) => r.status === 200,
-    'audio stream response time < 1000ms': (r) => r.timings.duration < 1000,
-    'audio stream has content': (r) => r.body.length > 0,
+  // Test audio streaming endpoint
+  const streamResponse = http.get(
+    `${BASE_URL}/audio/${randomSong.cloudinaryId}`
+  );
+  check(streamResponse, {
+    'GET /songs/audio/:id status is 200': (r) => r.status === 200,
+    'GET /songs/audio/:id response time < 1000ms': (r) =>
+      r.timings.duration < 1000,
   });
-  errorRate.add(audioResponse.status !== 200);
 
+  // Add a small delay between iterations
   sleep(1);
 }

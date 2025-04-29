@@ -1,36 +1,37 @@
 {
-  "name": "server",
+  "name": "echoplay-server",
   "version": "1.0.0",
+  "description": "EchoPlay Music Streaming Server",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "test:performance": "node performance-tests/run-tests.js",
     "test:api-load": "k6 run performance-tests/api-load-test.js",
     "test:frontend": "node performance-tests/frontend-performance.js",
-    "seed:test": "node tests/data/seed.js",
+    "seed:test": "node performance-tests/generate-test-data.js",
     "test:setup": "npm run seed:test && npm run test:performance"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "mongoose": "^8.13.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "cloudinary": "^1.40.0",
     "multer": "^1.4.5-lts.2",
     "multer-storage-cloudinary": "^4.0.0"
   },
   "devDependencies": {
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
     "artillery": "^2.0.22",
     "autocannon": "^8.0.0",
     "chrome-launcher": "^1.1.2",
     "k6": "^0.0.0",
-    "lighthouse": "^12.6.0",
-    "nodemon": "^3.1.10"
+    "lighthouse": "^12.6.0"
   }
 }
